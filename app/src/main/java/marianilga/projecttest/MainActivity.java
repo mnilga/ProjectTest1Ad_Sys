@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -21,7 +23,8 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
     private static final String TAG = "myLogs";
     private TextView textResult;
-    private Button butStart;
+    private WebView webView;
+    private LinearLayout layout;
 
     private final String yourText = "apptest.com/i?id=";
     private final String address = "http://devtest.ad-sys.com/c/apptest?id=";
@@ -34,19 +37,18 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        butStart = (Button)findViewById(R.id.butStart);
+        Button butStart = (Button)findViewById(R.id.butStart);
         butStart.setOnClickListener(this);
         textResult = (TextView)findViewById(R.id.result);
-
+        layout = (LinearLayout)findViewById(R.id.layout);
+        webView = new WebView(this);
+        layout.addView(webView);
 
     }
 
 
     @Override
     public void onClick(View v) {
-
-        //butStart.setEnabled(false);
-
         // Get all messages.
         messages = getMessages();
 
@@ -58,20 +60,13 @@ public class MainActivity extends Activity implements View.OnClickListener{
                 }
             }
 
-        //
-        if (id.isEmpty()) {
+         if (id.isEmpty()) {
             textResult.setText("Not found");
         }
-        else
-            try {
-                textResult.setText("" + toCall(address + id));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
+        else {
+             toCall(address + id);
+         }
     }
-
 
 
     // Method returns a list of all messages.
@@ -125,14 +120,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
 
     // Method calls to address
-    private String  toCall(String pageAddress) throws Exception {
+    private void  toCall(String pageAddress) {
 
-        StringBuilder sb = new StringBuilder();
+        webView.loadUrl(pageAddress);
+
+        /*StringBuilder sb = new StringBuilder();
         URL pageURL = new URL(pageAddress);
         URLConnection uc = pageURL.openConnection();
-        BufferedReader br = new BufferedReader(
-                new InputStreamReader(
-                        uc.getInputStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader( uc.getInputStream()));
         try {
             String inputLine;
             while ((inputLine = br.readLine()) != null) {
@@ -141,7 +136,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         } finally {
             br.close();
         }
-        return sb.toString();
+        return sb.toString();*/
 
     }
 }
