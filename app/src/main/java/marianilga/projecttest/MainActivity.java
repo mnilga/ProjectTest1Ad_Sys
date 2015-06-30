@@ -42,7 +42,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         textResult = (TextView)findViewById(R.id.result);
         layout = (LinearLayout)findViewById(R.id.layout);
         webView = new WebView(this);
-        layout.addView(webView);
 
     }
 
@@ -123,20 +122,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
     private void  toCall(String pageAddress) {
 
         webView.loadUrl(pageAddress);
-
-        /*StringBuilder sb = new StringBuilder();
-        URL pageURL = new URL(pageAddress);
-        URLConnection uc = pageURL.openConnection();
-        BufferedReader br = new BufferedReader(new InputStreamReader( uc.getInputStream()));
-        try {
-            String inputLine;
-            while ((inputLine = br.readLine()) != null) {
-                sb.append(inputLine);
-            }
-        } finally {
-            br.close();
-        }
-        return sb.toString();*/
-
+        layout.addView(webView);
     }
 }
